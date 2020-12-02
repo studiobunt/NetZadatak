@@ -27,9 +27,14 @@ namespace NetZadatak.Data.Repositories
             context.Proizvodi.Remove(proizvod);
         }
 
-        public async Task<Proizvod> GetAsync(long id)
+        public async Task<Proizvod> GetAsync(int id)
         {
             var proizvod = await context.Proizvodi.SingleOrDefaultAsync(u => u.Id == id);
+
+            if (proizvod == null)
+            {
+                return null;
+            }
 
             return proizvod;
         }
@@ -38,10 +43,17 @@ namespace NetZadatak.Data.Repositories
         {
             return await context.Proizvodi.ToListAsync();
         }
+
+
         public Proizvod Update(Proizvod proizvod)
         {
             context.Proizvodi.Update(proizvod);
             return proizvod;
+        }
+
+        public void Save()
+        {
+            context.SaveChangesAsync();
         }
     }
 }

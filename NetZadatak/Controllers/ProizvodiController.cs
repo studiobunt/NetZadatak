@@ -13,22 +13,100 @@ namespace NetZadatak.Controllers
 {
     public class ProizvodiController : Controller
     {
-        private readonly ProizvodiContext _context;
         private readonly IProizvodRepository _proizvodRepo;
 
-        public ProizvodiController(ProizvodiContext context, IProizvodRepository proizvodRepo)
+        public ProizvodiController(IProizvodRepository proizvodRepo)
         {
-            _context = context;
             _proizvodRepo = proizvodRepo;
 
         }
 
-        // GET: Proizvodi
         public async Task<IActionResult> Index()
         {
             return View(await _proizvodRepo.GetAsync());
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Proizvod proizvod)
+        {
+            if (ModelState.IsValid)
+            {
+                await _proizvodRepo.AddAsync(proizvod);
+                _proizvodRepo.Save();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(proizvod);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var proizvod = await _proizvodRepo.GetAsync(id);
+            if (proizvod == null)
+            {
+                return NotFound();
+            }
+            return View(proizvod);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Proizvod proizvod)
+        {
+            if (id != proizvod.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _proizvodRepo.Update(proizvod);
+                    _proizvodRepo.Save();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (_proizvodRepo.GetAsync(proizvod.Id)==null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(proizvod);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            var proizvod = await _proizvodRepo.GetAsync(id);
+            if (proizvod == null)
+            {
+                return NotFound();
+            }
+
+            return View(proizvod);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var proizvod = await _proizvodRepo.GetAsync(id);
+            _proizvodRepo.Delete(proizvod);
+            _proizvodRepo.Save();
+            return RedirectToAction(nameof(Index));
+        }
 
     }
 }
