@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NetZadatak.Data.Repositories;
 
 namespace NetZadatak
 {
@@ -26,6 +27,9 @@ namespace NetZadatak
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddScoped<IProizvodRepository, ProizvodRepository>();
+
 
             services.AddDbContext<ProizvodiContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ProizvodiContext")));
@@ -55,7 +59,7 @@ namespace NetZadatak
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Proizvodi}/{action=Index}/{id?}");
             });
         }
     }
