@@ -29,6 +29,7 @@ namespace NetZadatak
             services.AddControllersWithViews();
 
             services.AddScoped<IProizvodRepository, ProizvodRepository>();
+            services.AddScoped<IJsonRepository, JsonRepository>();
 
 
             services.AddDbContext<ProizvodiContext>(options =>
