@@ -1,11 +1,11 @@
 [
   {
-    "Id": 1,
-    "Naziv": "dzenan",
-    "Opis": "dzenan",
-    "Kategorija": "dzenan",
-    "Proizvodjac": "dzenan",
-    "Dobavljac": "dzenan",
-    "Cena": 0.0
+    "Id": 2,
+    "Naziv": "test",
+    "Opis": "test",
+    "Kategorija": "test",
+    "Proizvodjac": "test",
+    "Dobavljac": "test",
+    "Cena": 232.0
   }
 ]

@@ -9,6 +9,7 @@ using AspNetCoreWebApp.Models;
 using NetZadatak.Models;
 using NetZadatak.Data.Repositories;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace NetZadatak.Controllers
 {
@@ -25,7 +26,13 @@ namespace NetZadatak.Controllers
         public async Task<IActionResult> Index()
         {
             var proizvodi = _jsonRepo.GetProducts();
-            return View(proizvodi);
+            if (proizvodi != null)
+            {
+                return View(proizvodi);
+            }
+
+            return RedirectToAction(nameof(Error));
+
         }
 
         public IActionResult Create()
@@ -39,8 +46,13 @@ namespace NetZadatak.Controllers
         {
             if (ModelState.IsValid)
             {
-                 _jsonRepo.AddProduct(proizvod);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _jsonRepo.AddProduct(proizvod);
+                    return RedirectToAction(nameof(Index));
+                }catch(Exception){
+                    return RedirectToAction(nameof(Error));
+                }
             }
             return View(proizvod);
         }
@@ -78,7 +90,7 @@ namespace NetZadatak.Controllers
                     }
                     else
                     {
-                        throw;
+                        return RedirectToAction(nameof(Error));
                     }
                 }
                 return RedirectToAction(nameof(Index));
@@ -88,22 +100,41 @@ namespace NetZadatak.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-
-            var proizvod = _jsonRepo.GetProduct(id);
-            if (proizvod == null)
+            try
             {
-                return NotFound();
-            }
+                var proizvod = _jsonRepo.GetProduct(id);
+                if (proizvod == null)
+                {
+                    return NotFound();
+                }
 
-            return View(proizvod);
+                return View(proizvod);
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Error));
+            }
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _jsonRepo.DeleteProduct(id);
+            try
+            {
+                _jsonRepo.DeleteProduct(id);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction(nameof(Error));
+
+            }
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
     }
