@@ -3,9 +3,12 @@
     "Id": 2,
     "Naziv": "test",
     "Opis": "test",
-    "Kategorija": "test",
     "Proizvodjac": "test",
     "Dobavljac": "test",
-    "Cena": 232.0
+    "Cena": 232.0,
+    "Kategorija": {
+      "Id": 0,
+      "Naziv": "Kategorija12"
+    }
   }
 ]
