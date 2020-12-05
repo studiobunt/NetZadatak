@@ -29,7 +29,7 @@ namespace NetZadatak.Data.Repositories
 
         public async Task<Proizvod> GetAsync(int id)
         {
-            var proizvod = await context.Proizvodi.SingleOrDefaultAsync(u => u.Id == id);
+            var proizvod = await context.Proizvodi.Include(proizvod => proizvod.Kategorija).SingleOrDefaultAsync(u => u.Id == id);
 
             if (proizvod == null)
             {
@@ -41,7 +41,7 @@ namespace NetZadatak.Data.Repositories
 
         public async Task<IEnumerable<Proizvod>> GetAsync()
         {
-            return await context.Proizvodi.ToListAsync();
+            return await context.Proizvodi.Include(proizvod => proizvod.Kategorija).ToListAsync();
         }
 
 

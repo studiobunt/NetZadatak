@@ -26,8 +26,11 @@ namespace NetZadatak.Data
                     new Proizvod
                     {
                         Naziv = "Naziv1",
-                        Opis = "Opis1",
-                        Kategorija = "Kategorija1",
+                        Opis = "Opis1",                   
+                        Kategorija = new Kategorija
+                        {
+                            Naziv="Kategorija1"
+                        },
                         Proizvodjac = "Proizvodjac1",
                         Dobavljac = "Dobavljac1",
                         Cena = 7.99
@@ -37,7 +40,10 @@ namespace NetZadatak.Data
                     {
                         Naziv = "Naziv2",
                         Opis = "Opis2",
-                        Kategorija = "Kategorija2",
+                        Kategorija = new Kategorija
+                        {
+                            Naziv = "Kategorija2"
+                        },
                         Proizvodjac = "Proizvodjac2",
                         Dobavljac = "Dobavljac2",
                         Cena = 2.99
@@ -47,7 +53,10 @@ namespace NetZadatak.Data
                     {
                         Naziv = "Naziv3",
                         Opis = "Opis3",
-                        Kategorija = "Kategorija3",
+                        Kategorija = new Kategorija
+                        {
+                            Naziv = "Kategorija3"
+                        },
                         Proizvodjac = "Proizvodjac3",
                         Dobavljac = "Dobavljac3",
                         Cena = 13.99
@@ -57,7 +66,10 @@ namespace NetZadatak.Data
                     {
                         Naziv = "Naziv4",
                         Opis = "Opis4",
-                        Kategorija = "Kategorija4",
+                        Kategorija = new Kategorija
+                        {
+                            Naziv = "Kategorija4"
+                        },
                         Proizvodjac = "Proizvodjac4",
                         Dobavljac = "Dobavljac4",
                         Cena = 33.99
